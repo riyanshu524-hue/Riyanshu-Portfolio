@@ -7,10 +7,10 @@
 Developer Portfolio Template by **WarriorOG**
 
 <p>
-  <img src="https://img.shields.io/github/license/WarriorOG/WarXFolio?style=for-the-badge&labelColor=000000&color=4c1d95">
-  <img src="https://img.shields.io/github/stars/WarriorOG/WarXFolio?style=for-the-badge&labelColor=000000&color=2563eb">
-  <img src="https://img.shields.io/github/forks/WarriorOG/WarXFolio?style=for-the-badge&labelColor=000000&color=059669">
-  <img src="https://img.shields.io/github/issues/WarriorOG/WarXFolio?style=for-the-badge&labelColor=000000&color=dc2626">
+  <img src="https://img.shields.io/github/license/WarriorOGZzz/WarXFolio?style=for-the-badge&labelColor=000000&color=4c1d95">
+  <img src="https://img.shields.io/github/stars/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=2563eb">
+  <img src="https://img.shields.io/github/forks/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=059669">
+  <img src="https://img.shields.io/github/issues/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=dc2626">
 </p>
 
 <p>
