@@ -4,13 +4,13 @@
 
 ### Modern • Minimal • Open Source • Production Ready
 
-Developer Portfolio Template by **WarriorOG**
+Developer Portfolio Template by **Riyanshu**
 
 <p>
-  <img src="https://img.shields.io/github/license/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=4c1d95">
-  <img src="https://img.shields.io/github/stars/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=2563eb">
-  <img src="https://img.shields.io/github/forks/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=059669">
-  <img src="https://img.shields.io/github/issues/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=dc2626">
+  <img src="https://img.shields.io/github/license/RiyanshuZz/WarXFolio?style=for-the-badge&labelColor=000000&color=4c1d95">
+  <img src="https://img.shields.io/github/stars/RiyanshuZz/WarXFolio?style=for-the-badge&labelColor=000000&color=2563eb">
+  <img src="https://img.shields.io/github/forks/RiyanshuZz/WarXFolio?style=for-the-badge&labelColor=000000&color=059669">
+  <img src="https://img.shields.io/github/issues/RiyanshuZz/WarXFolio?style=for-the-badge&labelColor=000000&color=dc2626">
 </p>
 
 <p>
@@ -58,7 +58,7 @@ Whether you're a student, freelancer, or professional developer, WarXFolio provi
 ## Installation
 
 ```bash
-git clone https://github.com/WarriorOG/WarXFolio.git
+git clone https://github.com/riyanshu524-hue/WarXFolio.git
 
 cd WarXFolio
 
@@ -154,7 +154,7 @@ Released under the MIT License.
 
 <div align="center">
 
-Built by **WarriorOG**
+Built by **Riyanshu**
 
 If WarXFolio helps you, consider starring the repository.
 

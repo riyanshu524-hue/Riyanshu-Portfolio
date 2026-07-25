@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
+import Aurora from "@/components/Aurora";
+import ParticleBackground from "@/components/ParticleBackground";
+import AnimatedBackground from "@/components/AnimatedBackground";
 import { motion } from "motion/react";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState, useRef, type FormEvent } from "react";
 import {
   ArrowUpRight, Mail, Github, Send, Code2, Brain, Workflow, Bot,
   ArrowDown, ArrowRight, Sparkles, Zap, Gauge, Check, Plus, Minus,
@@ -11,10 +14,10 @@ import { usePerfMode } from "@/hooks/use-perf-mode";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "WarriorOG — Software, AI & Automation Studio" },
-      { name: "description", content: "Portfolio of WarriorOG — student & developer crafting software, AI agents, automation systems and Discord bots." },
-      { property: "og:title", content: "WarriorOG — Software, AI & Automation Studio" },
-      { property: "og:description", content: "Software, AI, automation & Discord bots. Built with craft." },
+      { title: "Riyanshu — Full Stack Developer" },
+      { name: "description", content: "Portfolio of Riyanshu — I'm Riyanshu — a Full Stack Developer specializing in modern web applications, AI-powered platforms, autonomous AI agents, and scalable backend systems." },
+      { property: "og:title", content: "Riyanshu — Full Stack Developer" },
+      { property: "og:description", content: "Full Stack Developer specializing in modern web applications, AI-powered platforms, autonomous AI agents, and scalable backend systems." },
       { property: "og:type", content: "website" },
     ],
     links: [
@@ -54,11 +57,43 @@ const PROCESS = [
 ];
 
 const PROJECTS = [
-  { y: "2026", t: "Sentinel", k: "Discord moderation suite", d: "AI-assisted moderation, raid defense and audit-grade logging for 50k+ member servers.", tags: ["Discord.js", "Postgres", "OpenAI"] },
-  { y: "2025", t: "Loom", k: "Workflow automation", d: "Visual pipeline that stitches CRMs, webhooks and scrapers into self-healing flows.", tags: ["Node", "Redis", "n8n"] },
-  { y: "2025", t: "Atlas", k: "AI research copilot", d: "RAG-powered assistant for indie founders — summarises markets, drafts briefs, cites sources.", tags: ["LLM", "RAG", "Next.js"] },
-  { y: "2024", t: "Pulse", k: "Realtime analytics", d: "Sub-second dashboards for live ops teams. Edge-first, zero cold starts.", tags: ["TanStack", "Cloudflare", "TS"] },
+  {
+    y: "2026",
+    t: "InQar",
+    k: "AI-Powered Social Media Platform",
+    d: "A next-generation social media platform inspired by Instagram, featuring AI-powered experiences, secure authentication, real-time messaging, media sharing, intelligent recommendations, and a scalable backend built for millions of users.",
+    tags: ["React", "Supabase", "JavaScript", "AI"],
+  },
+  {
+    y: "2026",
+    t: "Akart",
+    k: "Multi-Vendor E-Commerce Platform",
+    d: "A full-featured e-commerce marketplace inspired by Amazon and Flipkart. Includes multi-vendor support, secure payments, product management, authentication, order tracking, and a fast, responsive shopping experience.",
+    tags: ["React", "Supabase", "Node.js"],
+  },
+  {
+    y: "2026",
+    t: "InQar AI",
+    k: "LLM-Powered AI Assistant",
+    d: "A powerful AI assistant driven by state-of-the-art Large Language Models, capable of intelligent conversations, coding assistance, reasoning, content generation, research, and productivity enhancement.",
+    tags: ["LLM", "OpenAI", "Gemini", "AI"],
+  },
+  {
+    y: "2026",
+    t: "Jarvis",
+    k: "Autonomous AI Agent",
+    d: "An intelligent autonomous AI agent capable of planning, reasoning, using external tools, automating workflows, and executing complex tasks with minimal human intervention.",
+    tags: ["Python", "AI", "Automation"],
+  },
+  {
+    y: "2026",
+    t: "Ultron",
+    k: "Advanced Autonomous AI Agent",
+    d: "A next-generation autonomous AI system designed for advanced workflow automation, intelligent decision-making, adaptive execution, and enterprise-scale AI operations.",
+    tags: ["Python", "LLM", "Automation"],
+  },
 ];
+
 
 const TESTIMONIALS = [
   { q: "Shipped in two weeks what our last vendor couldn't deliver in three months. Calm, sharp, surgical.", a: "Mira K.", r: "Founder, Loomstack" },
@@ -74,10 +109,51 @@ const FAQ = [
 ];
 
 function Portfolio() {
+  const [mouse, setMouse] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      setMouse({
+        x: e.clientX,
+        y: e.clientY,
+      });
+    };
+
+    window.addEventListener("mousemove", move);
+    return () => window.removeEventListener("mousemove", move);
+  }, []);
+
   return (
-    <div id="top" className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+    <div
+  id="top"
+  className="relative min-h-screen text-foreground overflow-x-hidden"
+>
+      <Aurora />
+      <ParticleBackground />
+
+      <motion.div
+        className="fixed inset-0 pointer-events-none z-10"
+        animate={{
+          background: `radial-gradient(
+            500px circle at ${mouse.x}px ${mouse.y}px,
+            rgba(255,122,89,0.14),
+            transparent 70%
+          )`,
+        }}
+        transition={{
+          type: "tween",
+          duration: 0.12,
+        }}
+      />
+
       <Nav />
-      <main className="relative">
+
+      <motion.main
+        className="relative z-20"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
         <Hero />
         <Marquee />
         <Work />
@@ -88,7 +164,8 @@ function Portfolio() {
         <About />
         <Faq />
         <Contact />
-      </main>
+      </motion.main>
+
       <Footer />
     </div>
   );
@@ -108,19 +185,69 @@ function Nav() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-ink/90 border-b border-line">
+    <motion.header
+  initial={{ y: -80, opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  transition={{
+    duration: 0.8,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl bg-black/40 supports-[backdrop-filter]:bg-black/30"
+>
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
-        <a href="#top" className="flex items-center gap-2.5 min-w-0">
+        <motion.a
+  whileHover={{
+    scale: 1.08,
+    y: -5,
+    rotate: -1,
+    boxShadow: "0 15px 50px rgba(255,122,89,.45)",
+  }}
+  whileTap={{ scale: 0.95 }}
+  transition={{
+    type: "spring",
+    stiffness: 500,
+    damping: 15,
+  }}
+  href="#top"
+  whileHover={{
+    scale: 1.03,
+  }}
+  className="flex items-center gap-2.5 min-w-0"
+>
           <span className="h-2 w-2 rounded-full bg-coral perf-blink shrink-0" />
-          <span className="font-display text-lg sm:text-xl font-medium truncate">WarriorOG</span>
+          <span className="font-display text-lg sm:text-xl font-medium truncate">Riyanshu</span>
           <span className="hidden md:inline serif text-muted-foreground text-sm">— studio of one</span>
-        </a>
+        </motion.a>
 
         <nav className="hidden md:flex items-center gap-1">
           {NAV.map((n) => (
-            <a key={n.l} href={n.h} className="px-3 py-1.5 text-sm text-muted-foreground hover:text-cream transition">
+            <motion.a
+  whileHover={{
+    scale: 1.08,
+    y: -5,
+    rotate: -1,
+    boxShadow: "0 15px 50px rgba(255,122,89,.45)",
+  }}
+  whileTap={{ scale: 0.95 }}
+  transition={{
+    type: "spring",
+    stiffness: 500,
+    damping: 15,
+  }}
+  key={n.l}
+  href={n.h}
+  whileHover={{
+    y: -2,
+    color: "#ff7a59",
+  }}
+  transition={{
+    type: "spring",
+    stiffness: 400,
+  }}
+  className="px-3 py-1.5 text-sm text-muted-foreground transition"
+>
               {n.l}
-            </a>
+            </motion.a>
           ))}
         </nav>
 
@@ -168,7 +295,7 @@ function Nav() {
           </a>
         </div>
       )}
-    </header>
+    </motion.header>
   );
 }
 
@@ -202,8 +329,49 @@ function SectionLabel({ n, l }: { n: string; l: string }) {
 /* ---------- HERO ---------- */
 function Hero() {
   return (
-    <section className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-12 sm:pt-20 pb-20 sm:pb-28">
-      <PopIn className="flex flex-wrap items-center gap-2 mb-10">
+    <section className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-12 sm:pt-20 pb-20 sm:pb-28 overflow-hidden">
+      <motion.div
+  className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-coral/20 blur-[120px] pointer-events-none"
+  animate={{
+    x: [0, 80, -40, 0],
+    y: [0, -60, 40, 0],
+    scale: [1, 1.2, 0.9, 1],
+  }}
+  transition={{
+    duration: 18,
+    repeat: Infinity,
+    ease: "easeInOut",
+  }}
+/>
+
+<motion.div
+  className="absolute top-20 right-0 h-[28rem] w-[28rem] rounded-full bg-blue-500/10 blur-[150px] pointer-events-none"
+  animate={{
+    x: [0, -80, 60, 0],
+    y: [0, 60, -30, 0],
+    scale: [1, 0.9, 1.15, 1],
+  }}
+  transition={{
+    duration: 22,
+    repeat: Infinity,
+    ease: "easeInOut",
+  }}
+/>
+      <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} className="flex flex-wrap items-center gap-2 mb-10">
         <span className="tag">
           <span className="h-1.5 w-1.5 rounded-full bg-coral perf-blink" />
           Available · Q1 2026
@@ -212,50 +380,135 @@ function Hero() {
         <span className="hidden sm:inline mono text-[11px] text-muted-foreground ml-auto">
           v8 · editorial
         </span>
-      </PopIn>
+      </motion.div>
 
       <motion.h1
         initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+        animate={{
+    opacity:1,
+    y:[0,-6,0]
+}}
+        transition={{
+    opacity:{
+        duration:1
+    },
+    y:{
+        duration:6,
+        repeat:Infinity,
+        ease:"easeInOut"
+    }
+}}
         className="font-display font-medium leading-[0.92] tracking-tight text-[clamp(2.8rem,11vw,8.5rem)]"
       >
-        Building <span className="serif text-coral">quiet</span><br />
-        software that<br />
-        <span className="serif">just works.</span>
+        Crafting <span className="serif text-coral">AI</span><br />
+experiences for the<br />
+<span className="serif">future.</span>
       </motion.h1>
 
       <div className="mt-10 sm:mt-14 grid sm:grid-cols-12 gap-8 items-end">
-        <PopIn delay={0.08} className="sm:col-span-7">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} delay={0.08} className="sm:col-span-7">
           <p className="text-base sm:text-xl leading-relaxed text-cream/85 max-w-xl">
-            I'm <span className="text-coral font-medium">WarriorOG</span> — a student &
-            developer obsessed with AI, automation and elegant systems that disappear
-            into the background.
+            I'm <span className="text-coral font-medium">Riyanshu</span> — a Full Stack Developer specializing in AI-powered applications, autonomous agents, scalable backend systems, and modern web experiences built for performance and reliability.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
-            <a
-              href="#contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-coral text-ink px-5 py-3 text-sm font-medium hover:brightness-110 transition"
-            >
-              Start a project
-              <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition" />
-            </a>
-            <a
-              href="#work"
-              className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 text-sm font-medium hover:bg-ink-2 transition"
-            >
-              See my work <ArrowDown className="h-4 w-4" />
-            </a>
+          <motion.a
+  whileHover={{
+    scale: 1.08,
+    y: -5,
+    rotate: -1,
+    boxShadow: "0 15px 50px rgba(255,122,89,.45)",
+  }}
+  whileTap={{ scale: 0.95 }}
+  transition={{
+    type: "spring",
+    stiffness: 500,
+    damping: 15,
+  }}
+  whileHover={{
+    scale: 1.08,
+    y: -5,
+    rotate: -1,
+    boxShadow: "0 15px 50px rgba(255,122,89,.45)",
+  }}
+  whileTap={{ scale: 0.95 }}
+  transition={{
+    type: "spring",
+    stiffness: 500,
+    damping: 15,
+  }}
+  href="#contact"
+  whileHover={{
+    scale: 1.06,
+    y: -4,
+    boxShadow: "0 0 30px rgba(255, 122, 89, 0.45)",
+  }}
+  whileTap={{ scale: 0.96 }}
+  className="group inline-flex items-center gap-2 rounded-full bg-coral text-ink px-5 py-3 text-sm font-medium hover:brightness-110 transition"
+>
+  Start a project
+  <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition" />
+</motion.a>
+           <motion.a
+  whileHover={{
+    scale: 1.08,
+    y: -5,
+    rotate: -1,
+    boxShadow: "0 15px 50px rgba(255,122,89,.45)",
+  }}
+  whileTap={{ scale: 0.95 }}
+  transition={{
+    type: "spring",
+    stiffness: 500,
+    damping: 15,
+  }}
+  href="#work"
+  whileHover={{
+    scale: 1.05,
+    y: -4,
+  }}
+  whileTap={{ scale: 0.96 }}
+  className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 text-sm font-medium hover:bg-ink-2 transition"
+>
+  See my work <ArrowDown className="h-4 w-4" />
+</motion.a>
           </div>
-        </PopIn>
+        </motion.div>
 
-        <PopIn delay={0.15} className="sm:col-span-5">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} delay={0.15} className="sm:col-span-5">
           <div className="grid grid-cols-3 gap-3">
             <MiniStat k="3+" v="years shipping" />
             <MiniStat k="40+" v="projects" />
             <MiniStat k="24h" v="reply window" />
           </div>
-        </PopIn>
+        </motion.div>
       </div>
     </section>
   );
@@ -263,10 +516,31 @@ function Hero() {
 
 function MiniStat({ k, v }: { k: string; v: string }) {
   return (
-    <div className="card-raised p-4">
-      <div className="font-display text-2xl sm:text-3xl text-coral leading-none">{k}</div>
-      <div className="text-[11px] text-muted-foreground mt-2">{v}</div>
-    </div>
+    <motion.div
+      className="card-raised p-4"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.6,
+        ease: "easeOut",
+      }}
+      whileHover={{
+        y: -8,
+        scale: 1.06,
+        rotateX: 6,
+        rotateY: 6,
+        boxShadow: "0 20px 50px rgba(0,0,0,.35)",
+      }}
+    >
+      <div className="font-display text-2xl sm:text-3xl text-coral leading-none">
+        {k}
+      </div>
+
+      <div className="text-[11px] text-muted-foreground mt-2">
+        {v}
+      </div>
+    </motion.div>
   );
 }
 
@@ -274,7 +548,13 @@ function MiniStat({ k, v }: { k: string; v: string }) {
 function Marquee() {
   const items = ["Software", "AI Agents", "Automation", "Discord Bots", "Backend", "Cloud", "APIs", "Open Source", "UI / UX"];
   return (
-    <section className="relative py-6 sm:py-8 overflow-hidden border-y border-line bg-ink-2">
+    <motion.section
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 1 }}
+  className="relative py-6 sm:py-8 overflow-hidden border-y border-line bg-ink-2"
+>
       <div className="flex w-max gap-12 perf-marquee whitespace-nowrap">
         {[0, 1].map((k) => (
           <div key={k} className="flex gap-12 shrink-0">
@@ -287,7 +567,7 @@ function Marquee() {
           </div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }
 
@@ -295,41 +575,102 @@ function Marquee() {
 function Work() {
   return (
     <section id="work" className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
-      <PopIn><SectionLabel n="01" l="Services" /></PopIn>
-      <div className="grid sm:grid-cols-12 gap-6 items-end mt-6 mb-10 sm:mb-14">
-        <PopIn className="sm:col-span-8">
-          <h2 className="font-display text-4xl sm:text-6xl leading-[0.95]">
+      <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }}><SectionLabel n="01" l="Services" /></motion.div>
+            <div className="grid sm:grid-cols-12 gap-6 items-end mt-6 mb-10 sm:mb-14">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="sm:col-span-8"
+        >
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.8,
+              ease: "easeOut",
+            }}
+            className="font-display text-4xl sm:text-6xl leading-[0.95]"
+          >
             Four crafts. <span className="serif text-coral">One</span> obsession.
-          </h2>
-        </PopIn>
-        <PopIn delay={0.08} className="sm:col-span-4">
+          </motion.h2>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{
+            duration: 0.8,
+            delay: 0.08,
+          }}
+          className="sm:col-span-4"
+        >
           <p className="text-sm sm:text-base text-muted-foreground">
             Tight toolkit, on purpose. Depth over a long résumé of shallow services.
           </p>
-        </PopIn>
+        </motion.div>
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
         {SERVICES.map((s, i) => (
-          <PopIn key={s.t} delay={i * 0.05}>
+          <motion.div
+            key={s.t}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.8,
+              delay: i * 0.05,
+            }}
+          >
             <article className="group card-raised p-6 sm:p-8 relative h-full transition hover:border-coral/50">
               <div className="flex items-start justify-between">
-                <span className="mono text-xs text-muted-foreground">{s.n} / 04</span>
+                <span className="mono text-xs text-muted-foreground">
+                  {s.n} / 04
+                </span>
+
                 <div className="grid place-items-center h-10 w-10 rounded-full bg-coral/12 text-coral border border-coral/25">
                   <s.icon className="h-4 w-4" />
                 </div>
               </div>
-              <h3 className="mt-10 font-display text-3xl sm:text-4xl leading-tight">{s.t}</h3>
-              <p className="mt-3 text-sm text-muted-foreground max-w-sm">{s.d}</p>
+
+              <h3 className="mt-10 font-display text-3xl sm:text-4xl leading-tight">
+                {s.t}
+              </h3>
+
+              <p className="mt-3 text-sm text-muted-foreground max-w-sm">
+                {s.d}
+              </p>
+
               <div className="mt-6 flex flex-wrap gap-2">
                 {s.tags.map((t) => (
-                  <span key={t} className="mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-full border border-line text-muted-foreground">
+                  <span
+                    key={t}
+                    className="mono text-[10px] uppercase tracking-wider px-2 py-1 rounded-full border border-line text-muted-foreground"
+                  >
                     {t}
                   </span>
                 ))}
               </div>
             </article>
-          </PopIn>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -340,35 +681,112 @@ function Work() {
 function Projects() {
   return (
     <section id="projects" className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
-      <PopIn><SectionLabel n="02" l="Selected Work" /></PopIn>
-      <PopIn>
-        <h2 className="mt-6 mb-10 sm:mb-14 font-display text-4xl sm:text-6xl leading-[0.95]">
+      <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }}><SectionLabel n="02" l="Selected Work" /></motion.div>
+      
+        <motion.h2
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.8,
+    ease: "easeOut",
+  }} className="mt-6 mb-10 sm:mb-14 font-display text-4xl sm:text-6xl leading-[0.95]">
           Things I've <span className="serif text-coral">shipped</span>.
-        </h2>
-      </PopIn>
+        </motion.h2>
+      
 
       <div className="border-t border-line">
         {PROJECTS.map((p, i) => (
-          <PopIn key={p.t} delay={i * 0.04}>
-            <a href="#contact" className="group block border-b border-line py-6 sm:py-8 hover:bg-ink-2 transition px-2 -mx-2 rounded-md">
+          <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} key={p.t} delay={i * 0.04}>
+            <motion.a
+  whileHover={{
+    scale: 1.08,
+    y: -5,
+    rotate: -1,
+    boxShadow: "0 15px 50px rgba(255,122,89,.45)",
+  }}
+  whileTap={{ scale: 0.95 }}
+  transition={{
+    type: "spring",
+    stiffness: 500,
+    damping: 15,
+  }}
+  href="#contact"
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.7,
+    delay: i * 0.1,
+  }}
+  whileHover={{
+    scale: 1.02,
+    y: -6,
+  }}
+  className="group block border-b border-line py-6 sm:py-8 hover:bg-ink-2 transition px-2 -mx-2 rounded-md"
+>
               <div className="grid sm:grid-cols-12 gap-4 sm:gap-6 items-baseline">
                 <div className="sm:col-span-1 mono text-xs text-muted-foreground">{p.y}</div>
                 <div className="sm:col-span-3 font-display text-2xl sm:text-3xl">{p.t}</div>
                 <div className="sm:col-span-3 text-sm text-coral">{p.k}</div>
                 <div className="sm:col-span-4 text-sm text-muted-foreground">{p.d}</div>
                 <div className="sm:col-span-1 flex justify-end">
-                  <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-coral group-hover:rotate-45 transition" />
+                  <motion.div
+  whileHover={{
+    rotate: 45,
+    x: 6,
+  }}
+  transition={{ type: "spring", stiffness: 300 }}
+>
+  <ArrowUpRight className="h-5 w-5 text-muted-foreground group-hover:text-coral" />
+</motion.div>
                 </div>
               </div>
               <div className="mt-4 sm:mt-3 sm:ml-[8.5%] flex flex-wrap gap-2">
                 {p.tags.map((t) => (
-                  <span key={t} className="mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-line text-muted-foreground">
+                  <motion.span
+  key={t}
+  whileHover={{
+    scale: 1.1,
+    backgroundColor: "rgba(255,122,89,.12)",
+    borderColor: "#ff7a59",
+  }}
+  className="mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full border border-line text-muted-foreground"
+>
                     {t}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
-            </a>
-          </PopIn>
+            </motion.a>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -381,16 +799,51 @@ function Stack() {
     <section id="stack" className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
       <PopIn><SectionLabel n="03" l="Tooling" /></PopIn>
       <div className="mt-6 grid sm:grid-cols-12 gap-10">
-        <PopIn className="sm:col-span-5">
-          <h2 className="font-display text-4xl sm:text-5xl leading-[0.95]">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} className="sm:col-span-5">
+          <motion.h2
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.8,
+    ease: "easeOut",
+  }} className="font-display text-4xl sm:text-5xl leading-[0.95]">
             A small, <span className="serif text-coral">sharp</span> toolbox.
-          </h2>
+          </motion.h2>
           <p className="mt-6 text-muted-foreground max-w-md">
             I pick tools I trust and master them. No framework-of-the-week chasing —
             just things that ship reliably.
           </p>
-        </PopIn>
-        <PopIn delay={0.08} className="sm:col-span-7">
+        </motion.div>
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} delay={0.08} className="sm:col-span-7">
           <div className="card-raised p-6 sm:p-8">
             <div className="flex flex-wrap gap-2">
               {STACK.map((s) => (
@@ -403,7 +856,7 @@ function Stack() {
               ))}
             </div>
           </div>
-        </PopIn>
+        </motion.div>
       </div>
     </section>
   );
@@ -415,20 +868,41 @@ function Process() {
     <section className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
       <PopIn><SectionLabel n="04" l="Process" /></PopIn>
       <PopIn>
-        <h2 className="mt-6 font-display text-4xl sm:text-6xl leading-[0.95] max-w-2xl">
+        <motion.h2
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.8,
+    ease: "easeOut",
+  }} className="mt-6 font-display text-4xl sm:text-6xl leading-[0.95] max-w-2xl">
           Three steps. <span className="serif text-coral">Zero</span> drama.
-        </h2>
+        </motion.h2>
       </PopIn>
 
       <div className="mt-12 grid sm:grid-cols-3 gap-4">
         {PROCESS.map((s, i) => (
-          <PopIn key={s.n} delay={i * 0.06}>
+          <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} key={s.n} delay={i * 0.06}>
             <div className="card-raised p-6 sm:p-8 h-full">
               <div className="mono text-xs text-coral">{s.n}</div>
               <h3 className="mt-6 font-display text-3xl">{s.t}</h3>
               <p className="mt-3 text-sm text-muted-foreground">{s.d}</p>
             </div>
-          </PopIn>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -440,14 +914,35 @@ function Testimonials() {
   return (
     <section className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
       <PopIn><SectionLabel n="05" l="Trust" /></PopIn>
-      <PopIn>
-        <h2 className="mt-6 mb-10 sm:mb-14 font-display text-4xl sm:text-6xl leading-[0.95]">
+      
+        <motion.h2
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.8,
+    ease: "easeOut",
+  }} className="mt-6 mb-10 sm:mb-14 font-display text-4xl sm:text-6xl leading-[0.95]">
           Kind words from <span className="serif text-coral">real</span> humans.
-        </h2>
-      </PopIn>
+        </motion.h2>
+      
       <div className="grid sm:grid-cols-3 gap-4">
         {TESTIMONIALS.map((t, i) => (
-          <PopIn key={t.a} delay={i * 0.06}>
+          <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} key={t.a} delay={i * 0.06}>
             <figure className="card-raised p-6 sm:p-7 h-full flex flex-col justify-between">
               <blockquote className="font-display text-lg sm:text-xl leading-snug">
                 <span className="serif text-coral">"</span>{t.q}<span className="serif text-coral">"</span>
@@ -457,7 +952,7 @@ function Testimonials() {
                 <div className="mono text-[11px] text-muted-foreground mt-0.5">{t.r}</div>
               </figcaption>
             </figure>
-          </PopIn>
+          </motion.div>
         ))}
       </div>
     </section>
@@ -470,11 +965,32 @@ function About() {
     <section id="about" className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
       <PopIn><SectionLabel n="06" l="About" /></PopIn>
       <div className="mt-6 grid sm:grid-cols-12 gap-10">
-        <PopIn className="sm:col-span-7">
-          <h2 className="font-display text-4xl sm:text-6xl leading-[0.95]">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} className="sm:col-span-7">
+          <motion.h2
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.8,
+    ease: "easeOut",
+  }} className="font-display text-4xl sm:text-6xl leading-[0.95]">
             A student, <span className="serif text-coral">obsessed</span><br />
             with building.
-          </h2>
+          </motion.h2>
           <div className="mt-8 space-y-5 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-xl">
             <p>
               I transform ideas into clean, reliable systems — from full-stack apps to
@@ -484,9 +1000,23 @@ function About() {
               <span className="serif text-coral">"</span>Consistency and curiosity are the only real shortcuts.<span className="serif text-coral">"</span>
             </p>
           </div>
-        </PopIn>
+        </motion.div>
 
-        <PopIn delay={0.08} className="sm:col-span-5">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} delay={0.08} className="sm:col-span-5">
           <div className="card-raised p-6 sm:p-8">
             {[
               "Continuous improvement",
@@ -504,7 +1034,7 @@ function About() {
               </div>
             ))}
           </div>
-        </PopIn>
+        </motion.div>
       </div>
     </section>
   );
@@ -517,12 +1047,47 @@ function Faq() {
     <section className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
       <PopIn><SectionLabel n="07" l="FAQ" /></PopIn>
       <div className="mt-6 grid sm:grid-cols-12 gap-10">
-        <PopIn className="sm:col-span-5">
-          <h2 className="font-display text-4xl sm:text-5xl leading-[0.95]">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} className="sm:col-span-5">
+          <motion.h2
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.8,
+    ease: "easeOut",
+  }} className="font-display text-4xl sm:text-5xl leading-[0.95]">
             Common <span className="serif text-coral">questions</span>.
-          </h2>
-        </PopIn>
-        <PopIn delay={0.08} className="sm:col-span-7">
+          </motion.h2>
+        </motion.div>
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} delay={0.08} className="sm:col-span-7">
           <div className="border-t border-line">
             {FAQ.map((f, i) => {
               const isOpen = open === i;
@@ -548,7 +1113,7 @@ function Faq() {
               );
             })}
           </div>
-        </PopIn>
+        </motion.div>
       </div>
     </section>
   );
@@ -597,11 +1162,32 @@ function Contact() {
     <section id="contact" className="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 sm:py-28">
       <PopIn><SectionLabel n="08" l="Contact" /></PopIn>
       <div className="mt-6 grid sm:grid-cols-12 gap-10">
-        <PopIn className="sm:col-span-6">
-          <h2 className="font-display text-4xl sm:text-6xl leading-[0.95]">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} className="sm:col-span-6">
+          <motion.h2
+  initial={{ opacity: 0, y: 40 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{
+    duration: 0.8,
+    ease: "easeOut",
+  }} className="font-display text-4xl sm:text-6xl leading-[0.95]">
             Got an idea?<br />
             <span className="serif text-coral">Let's make</span><br /> it real.
-          </h2>
+          </motion.h2>
           <p className="mt-6 text-muted-foreground max-w-md text-base">
             Open for software, AI, automation and Discord bot work. Tell me what
             you're building — I reply within 24 hours.
@@ -609,12 +1195,12 @@ function Contact() {
 
           <div className="mt-8">
             <a
-              href="mailto:hello@warriorog.dev"
+              href="mailto:riyanshu524@gmail.com"
               className="flex items-center justify-between border-t border-line py-4 group"
             >
               <span className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-coral" />
-                <span className="font-display text-lg sm:text-xl">hello@warriorog.dev</span>
+                <span className="font-display text-lg sm:text-xl">riyanshu524@gmail.com</span>
               </span>
               <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition" />
             </a>
@@ -624,14 +1210,28 @@ function Contact() {
             >
               <span className="flex items-center gap-3">
                 <Github className="h-4 w-4 text-coral" />
-                <span className="font-display text-lg sm:text-xl">github.com/warriorog</span>
+                <span className="font-display text-lg sm:text-xl">github.com/riyanshu524-hue</span>
               </span>
               <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition" />
             </a>
           </div>
-        </PopIn>
+        </motion.div>
 
-        <PopIn delay={0.08} className="sm:col-span-6">
+        <motion.div
+    initial={{
+        opacity:0,
+        y:40
+    }}
+    whileInView={{
+        opacity:1,
+        y:0
+    }}
+    viewport={{
+        once:true
+    }}
+    transition={{
+        duration:.8
+    }} delay={0.08} className="sm:col-span-6">
           <form onSubmit={onSubmit} className="card-raised p-6 sm:p-8 space-y-4">
             <Field name="name" label="Name" placeholder="Jane Doe" required />
             <Field name="email" type="email" label="Email" placeholder="jane@email.com" required />
@@ -661,7 +1261,7 @@ function Contact() {
               </p>
             )}
           </form>
-        </PopIn>
+        </motion.div>
       </div>
     </section>
   );
@@ -691,10 +1291,14 @@ function Field({
 /* ---------- FOOTER ---------- */
 function Footer() {
   return (
-    <footer className="relative mt-10 border-t border-line">
+    <motion.footer
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  viewport={{ once: true }}
+  transition={{ duration: 1 }} className="relative mt-10 border-t border-line">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 py-10">
         <div className="font-display text-[18vw] sm:text-[13vw] leading-[0.85] tracking-tight">
-          WarriorOG<span className="text-coral">.</span>
+          Riyanshu<span className="text-coral">.</span>
         </div>
         <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:justify-between items-start sm:items-end mono text-[11px] text-muted-foreground">
           <div className="flex items-center gap-2">
@@ -706,6 +1310,6 @@ function Footer() {
           </a>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
