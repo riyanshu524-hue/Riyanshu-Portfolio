@@ -4,7 +4,7 @@
 
 ### Modern • Minimal • Open Source • Production Ready
 
-Developer Portfolio Template by **WarriorOG**
+Developer Portfolio Template by **Riyanshu**
 
 <p>
   <img src="https://img.shields.io/github/license/WarriorOGZz/WarXFolio?style=for-the-badge&labelColor=000000&color=4c1d95">
@@ -154,7 +154,7 @@ Released under the MIT License.
 
 <div align="center">
 
-Built by **WarriorOG**
+Built by **Riyanshu**
 
 If WarXFolio helps you, consider starring the repository.
 
