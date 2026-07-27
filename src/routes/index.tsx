@@ -175,6 +175,19 @@ function Portfolio() {
 function Nav() {
   const [open, setOpen] = useState(false);
   const [time, setTime] = useState("");
+  const [activeSection, setActiveSection] = useState("work");
+  const [scrolled, setScrolled] = useState(false);
+
+useEffect(() => {
+  const onScroll = () => {
+    setScrolled(window.scrollY > 30);
+  };
+
+  window.addEventListener("scroll", onScroll);
+  onScroll();
+
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
 
   useEffect(() => {
     const tick = () =>
@@ -183,6 +196,34 @@ function Nav() {
     const id = setInterval(tick, 30_000);
     return () => clearInterval(id);
   }, []);
+  useEffect(() => {
+  const onScroll = () => {
+    const sections = NAV.map((n) => ({
+      id: n.h.replace("#", ""),
+      el: document.querySelector(n.h) as HTMLElement | null,
+    }));
+
+    let current = "work";
+
+    for (const section of sections) {
+      if (!section.el) continue;
+
+      const top = section.el.offsetTop - 140;
+
+      if (window.scrollY >= top) {
+        current = section.id;
+      }
+    }
+
+    setActiveSection(current);
+  };
+
+  window.addEventListener("scroll", onScroll);
+
+  onScroll();
+
+  return () => window.removeEventListener("scroll", onScroll);
+}, []);
 
   return (
     <motion.header
@@ -192,31 +233,73 @@ function Nav() {
     duration: 0.8,
     ease: [0.22, 1, 0.36, 1],
   }}
-  className="sticky top-0 z-50 border-b border-white/10 backdrop-blur-xl bg-black/40 supports-[backdrop-filter]:bg-black/30"
+  className={`
+sticky
+top-4
+z-50
+mx-auto
+w-[96%]
+max-w-6xl
+border
+border-cyan-400/10
+backdrop-blur-2xl
+supports-[backdrop-filter]:bg-black/20
+transition-all
+duration-500
+${
+  scrolled
+    ? "h-14 rounded-xl bg-black/45 shadow-[0_0_45px_rgba(34,211,238,0.16)]"
+    : "h-16 rounded-2xl bg-black/25 shadow-[0_0_35px_rgba(34,211,238,0.08)]"
+}
+`}
 >
-      <div className="mx-auto max-w-6xl px-4 sm:px-6 h-14 flex items-center justify-between gap-3">
+      <div className="h-16 px-6 flex items-center justify-between gap-3">
         <motion.a
   whileHover={{
-    scale: 1.08,
-    y: -5,
-    rotate: -1,
-    boxShadow: "0 15px 50px rgba(255,122,89,.45)",
-  }}
-  whileTap={{ scale: 0.95 }}
-  transition={{
-    type: "spring",
-    stiffness: 500,
-    damping: 15,
-  }}
+  scale: 1.06,
+  y: -3,
+  rotate: -1,
+}}
+whileTap={{ scale: 0.97 }}
+transition={{
+  type: "spring",
+  stiffness: 420,
+  damping: 18,
+}}
   href="#top"
-  whileHover={{
-    scale: 1.03,
-  }}
-  className="flex items-center gap-2.5 min-w-0"
+  
+  className="
+group
+relative
+flex
+items-center
+gap-3
+min-w-0
+rounded-xl
+px-3
+py-2
+transition-all
+duration-300
+hover:bg-cyan-400/5
+"
 >
-          <span className="h-2 w-2 rounded-full bg-coral perf-blink shrink-0" />
-          <span className="font-display text-lg sm:text-xl font-medium truncate">Riyanshu</span>
-          <span className="hidden md:inline serif text-muted-foreground text-sm">— studio of one</span>
+          <span className="h-2.5 w-2.5 rounded-full bg-cyan-400 shadow-[0_0_14px_#22d3ee] animate-pulse shrink-0" />
+
+<motion.span
+  animate={{
+    textShadow: scrolled
+      ? "0 0 0px rgba(34,211,238,0)"
+      : "0 0 18px rgba(34,211,238,0.55)",
+  }}
+  transition={{ duration: 0.4 }}
+  className="font-display text-xl font-semibold tracking-wide bg-gradient-to-r from-cyan-300 via-white to-cyan-400 bg-clip-text text-transparent"
+>
+  Riyanshu
+</motion.span>
+
+<span className="hidden md:inline text-sm text-slate-400 group-hover:text-cyan-300 transition-colors">
+  — studio of one
+</span>
         </motion.a>
 
         <nav className="hidden md:flex items-center gap-1">
@@ -237,16 +320,44 @@ function Nav() {
   key={n.l}
   href={n.h}
   whileHover={{
-    y: -2,
-    color: "#ff7a59",
-  }}
+  y: -3,
+  scale: 1.05,
+}}
   transition={{
-    type: "spring",
-    stiffness: 400,
-  }}
-  className="px-3 py-1.5 text-sm text-muted-foreground transition"
+  type: "spring",
+  stiffness: 500,
+  damping: 18,
+}}
+  className={`
+relative
+rounded-xl
+px-4
+py-2
+text-sm
+font-medium
+transition-all
+duration-300
+${
+  activeSection === n.h.replace("#", "")
+    ? "bg-cyan-400/15 text-cyan-300 shadow-[0_0_25px_rgba(34,211,238,0.25)]"
+    : "text-slate-300 hover:text-cyan-300 hover:bg-cyan-400/10 hover:shadow-[0_0_20px_rgba(34,211,238,0.18)]"
+}
+`}
 >
-              {n.l}
+{activeSection === n.h.replace("#", "") && (
+  <motion.span
+    layoutId="activeNav"
+    className="absolute inset-0 rounded-xl border border-cyan-400/30 bg-cyan-400/10"
+    transition={{
+      type: "spring",
+      stiffness: 450,
+      damping: 35,
+    }}
+  />
+)}
+              <span className="relative z-10">
+  {n.l}
+</span>
             </motion.a>
           ))}
         </nav>
@@ -331,36 +442,47 @@ function Hero() {
   return (
     <section className="relative mx-auto max-w-6xl px-4 sm:px-6 pt-12 sm:pt-20 pb-20 sm:pb-28 overflow-hidden">
       <motion.div
-  className="absolute -top-40 -left-40 h-96 w-96 rounded-full bg-coral/20 blur-[120px] pointer-events-none"
+  className="absolute -top-48 -left-48 h-[42rem] w-[42rem] rounded-full pointer-events-none"
+  style={{
+  background: "transparent",
+  boxShadow: "0 0 220px 120px rgba(34,211,238,.28)",
+}}
   animate={{
-    x: [0, 80, -40, 0],
-    y: [0, -60, 40, 0],
-    scale: [1, 1.2, 0.9, 1],
+    x: [0, 60, -30, 0],
+    y: [0, 40, -20, 0],
+    scale: [1, 1.15, 0.95, 1],
   }}
   transition={{
-    duration: 18,
+    duration: 20,
     repeat: Infinity,
     ease: "easeInOut",
   }}
 />
 
 <motion.div
-  className="absolute top-20 right-0 h-[28rem] w-[28rem] rounded-full bg-blue-500/10 blur-[150px] pointer-events-none"
+  className="absolute top-0 right-[-8rem] h-[44rem] w-[44rem] rounded-full pointer-events-none"
+  style={{
+    
+  background: "transparent",
+  boxShadow: "0 0 260px 140px rgba(56,189,248,.22)",
+         }}
   animate={{
-    x: [0, -80, 60, 0],
-    y: [0, 60, -30, 0],
-    scale: [1, 0.9, 1.15, 1],
+    x: [0, -80, 40, 0],
+    y: [0, 50, -25, 0],
+    scale: [1, 0.9, 1.2, 1],
   }}
   transition={{
-    duration: 22,
+    duration: 24,
     repeat: Infinity,
     ease: "easeInOut",
   }}
 />
-      <motion.div
-    initial={{
-        opacity:0,
-        y:40
+<motion.div
+  initial={{
+    opacity: 0,
+    y: 40,
+  }}
+  whileInView={{
     }}
     whileInView={{
         opacity:1,
@@ -398,12 +520,26 @@ function Hero() {
         ease:"easeInOut"
     }
 }}
-        className="font-display font-medium leading-[0.92] tracking-tight text-[clamp(2.8rem,11vw,8.5rem)]"
-      >
-        Crafting <span className="serif text-coral">AI</span><br />
-experiences for the<br />
-<span className="serif">future.</span>
-      </motion.h1>
+        className="
+relative
+font-display
+font-semibold
+leading-[0.88]
+tracking-tight
+text-[clamp(3rem,11vw,8.8rem)]
+bg-gradient-to-b
+from-white
+via-cyan-100
+to-cyan-400
+bg-clip-text
+text-transparent
+drop-shadow-[0_0_35px_rgba(34,211,238,0.18)]
+"
+>
+  Crafting <span className="serif text-cyan-300">AI</span><br />
+  experiences for the<br />
+  <span className="serif text-white">future.</span>
+</motion.h1>
 
       <div className="mt-10 sm:mt-14 grid sm:grid-cols-12 gap-8 items-end">
         <motion.div
@@ -457,10 +593,10 @@ experiences for the<br />
     boxShadow: "0 0 30px rgba(255, 122, 89, 0.45)",
   }}
   whileTap={{ scale: 0.96 }}
-  className="group inline-flex items-center gap-2 rounded-full bg-coral text-ink px-5 py-3 text-sm font-medium hover:brightness-110 transition"
+  className="group relative overflow-hidden inline-flex items-center gap-2 rounded-full border border-cyan-400/30 bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_0_30px_rgba(34,211,238,0.35)] transition-all duration-300 hover:scale-105 hover:shadow-[0_0_45px_rgba(34,211,238,0.6)]"
 >
   Start a project
-  <ArrowUpRight className="h-4 w-4 group-hover:rotate-45 transition" />
+  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
 </motion.a>
            <motion.a
   whileHover={{
